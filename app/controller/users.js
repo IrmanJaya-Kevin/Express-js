@@ -1,3 +1,4 @@
+const model=require('../model/users')
 const users = [
     {
         id: 1,
@@ -10,15 +11,16 @@ const users = [
 ]
 
 module.exports = {
-    get(req, res){
-        let result = users;
+    async get(req, res){
+        const{search,page,limit}=req.query;
+        let result = await model.get(page,limit);
         if(!users.length) res.status(200).json({ 
             status: 'success', 
             code: 200, 
             message: 'Data Empty'
         })
 
-        const { search } = req.query;
+        // const { search } = req.query;
 
         if(search){
             result = users.filter((el) => {
